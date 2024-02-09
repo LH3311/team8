@@ -13,6 +13,8 @@ Parkinsons File Location:
 FFQ
 - More likely to get FFQ info if we have specific question
 
+Minimum sample size ~10
+
 ### Aim 1 (Rob)
 - Permanova to look at beta diversity
   - Anova with infinite variables
