@@ -13,25 +13,25 @@ Parkinsons File Location:
 FFQ
 - More likely to get FFQ info if we have specific question
 
-### Aim 1 
+### Aim 1 (Rob)
 - Permanova to look at beta diversity
   - Anova with infinite variables
   - Effect size
 - Top most impactful nutrients
   - Associated diets
-### Aim 2
+### Aim 2 - (Kevin)
 - Group nutrients into categories
+  - Maybe correlate predictors to disease severity
 - Multi-variable regression
-### Aim 3 
+### Aim 3 - (Louise)
 - Core microbiome
-### Aim 4 - Adam
-
-
-### Aim 5
-
+### Aim 4 - (Adam)
+- Indicator taxas
+### Aim 5 - (Greg)
+- Differential abundance
 
 ### Aim 6
-- Pie Crust
+- Pie Crust 2
 
 ## Next week
 - GITHUB tutorial
