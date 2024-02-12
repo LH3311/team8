@@ -41,3 +41,13 @@ Minimum sample size ~10
   - If roadblocks are encountered, best to email Chris
   - Get at least table.qza
 - Break up proposal into sections, and decide who is doing which part
+
+
+## <div align="right"> Feburary 12, 2024 </div>
+Seperate phyloseq object by healthy and PD patients.
+
+
+## Next week
+Meeting on Zoom Tuesday 11 am
+Decide on sampling depth
+Make list of nutrients from PD metadata for R code
