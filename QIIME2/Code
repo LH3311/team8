@@ -1,1 +1,114 @@
+# Create a folder
+cd /data/
+mkdir pd
+cd pd
 
+# Import & Demultiplex
+qiime tools import \
+  --type "SampleData[SequencesWithQuality]" \
+  --input-format SingleEndFastqManifestPhred33V2 \
+  --input-path /mnt/datasets/project_2/parkinsons/parkinsons_manifest.txt \
+  --output-path ./demux_seqs.qza  
+
+# Create visualization of demultiplexed samples
+qiime demux summarize \
+  --i-data demux_seqs.qza \
+  --o-visualization demux.qzv
+
+# Transfer file to computer to visualize
+scp root@10.19.139.173:/data/pd/demux.qzv .
+
+# Determine ASVs with DADA2
+qiime dada2 denoise-single \
+  --i-demultiplexed-seqs demux_seqs.qza \
+  --p-trim-left 0 \
+  --p-trunc-len 251 \
+  --o-representative-sequences rep-seqs.qza \
+  --o-table table.qza \
+  --o-denoising-stats stats.qza
+
+# Visualize DADA2 stats
+qiime metadata tabulate \
+  --m-input-file stats.qza \
+  --o-visualization stats.qzv
+
+# Visualize ASVs stats
+qiime feature-table summarize \
+  --i-table table.qza \
+  --o-visualization table.qzv \
+  --m-sample-metadata-file /mnt/datasets/project_2/parkinsons/parkinsons_metadata.txt
+
+qiime feature-table tabulate-seqs \
+  --i-data rep-seqs.qza \
+  --o-visualization rep-seqs.qzv
+
+# Transfer file to computer to visualize
+scp root@10.19.139.173:/data/pd/stats.qzv .
+scp root@10.19.139.173:/data/pd/table.qzv .
+scp root@10.19.139.173:/data/pd/rep-seqs.qzv .
+
+# Generate a tree for phylogenetic diversity analyses
+qiime phylogeny align-to-tree-mafft-fasttree \
+  --i-sequences rep-seqs.qza \
+  --o-alignment aligned-rep-seqs.qza \
+  --o-masked-alignment masked-aligned-rep-seqs.qza \
+  --o-tree unrooted-tree.qza \
+  --o-rooted-tree rooted-tree.qza 
+
+# Taxonomic analysis
+qiime feature-classifier classify-sklearn \
+  --i-classifier /mnt/datasets/classifiers/silva-138-99-515-806-nb-classifier.qza \
+  --i-reads rep-seqs.qza \
+  --o-classification taxonomy.qza
+
+qiime metadata tabulate \
+  --m-input-file taxonomy.qza \
+  --o-visualization taxonomy.qzv
+
+# Taxonomy barplots
+qiime taxa barplot \
+  --i-table table.qza \
+  --i-taxonomy taxonomy.qza \
+  --m-metadata-file /mnt/datasets/project_2/parkinsons/parkinsons_metadata.txt \
+  --o-visualization taxa-bar-plots.qzv
+
+# Transfer file to computer to visualize
+scp root@10.19.139.173:/data/pd/taxonomy.qzv .
+scp root@10.19.139.173:/data/pd/taxa-bar-plots.qzv .
+
+# Convert qza files to human-readable
+
+mkdir pd_export
+cd pd_export
+
+qiime tools export \
+--input-path ../table.qza \
+--output-path table_export 
+
+mv table_export/feature-table.biom .
+rmdir table_export/
+
+biom convert \
+-i feature-table.biom \
+--to-tsv \
+-o feature-table.txt
+
+qiime tools export \
+--input-path ../rooted-tree.qza \
+--output-path rooted_tree_export
+
+mv rooted_tree_export/tree.nwk .
+rmdir rooted_tree_export
+
+qiime tools export \
+--input-path ../taxonomy.qza \
+--output-path taxonomay_export
+
+mv taxonomay_export/taxonomy.tsv .
+rmdir taxonomay_export
+
+# Copy metadata to export file
+cp /mnt/datasets/project_2/parkinsons/parkinsons_metadata.txt .
+
+# Transfer metadata and exports to personal computer
+scp -r root@10.19.139.173:~/data/pd/pd_export .
