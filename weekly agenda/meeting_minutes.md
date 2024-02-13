@@ -48,6 +48,6 @@ Seperate phyloseq object by healthy and PD patients.
 
 
 ## Next week
-Meeting on Zoom Tuesday 11 am
-Decide on sampling depth
-Make list of nutrients from PD metadata for R code
+- Meeting on Zoom Tuesday 11 am
+- Decide on sampling depth
+- Make list of nutrients from PD metadata for R code
