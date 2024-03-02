@@ -60,11 +60,19 @@ pd_filt <- subset_taxa(pd, Domain == "d__Bacteria" & Class!="c__Chloroplast" & F
 pd_filt_nolow <- filter_taxa(pd_filt, function(x) sum(x)>5, prune = TRUE)
 
 # Remove samples with less than 100 reads
-pd_final <- prune_samples(sample_sums(pd_filt_nolow)>100, pd_filt_nolow)
+pd_filt_nolow_reads <- prune_samples(sample_sums(pd_filt_nolow)>100, pd_filt_nolow)
+
+# Remove samples where Glucose is na
+pd_final <- subset_samples(pd_filt_nolow_reads, !is.na(Glucose) )
 
 # Rarefy samples
-rarecurve(t(as.data.frame(otu_table(pd_final))), cex=0.1)
+rarecurve <- rarecurve(t(as.data.frame(otu_table(pd_final))), cex=0.1)
+
+# Need to decide on Sample Size (5000) and re-run
 pd_rare <- rarefy_even_depth(pd_final, rngseed = 1, sample.size = 1000) 
 pd_rare
 
+##### Saving #####
+save(pd_final, file="pd_final.RData")
+save(pd_rare, file="pd_rare.RData")
 
