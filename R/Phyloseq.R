@@ -69,7 +69,7 @@ pd_final <- subset_samples(pd_filt_nolow_reads, !is.na(Glucose) )
 rarecurve <- rarecurve(t(as.data.frame(otu_table(pd_final))), cex=0.1)
 
 # Need to decide on Sample Size (5000) and re-run
-pd_rare <- rarefy_even_depth(pd_final, rngseed = 1, sample.size = 1000) 
+pd_rare <- rarefy_even_depth(pd_final, rngseed = 1, sample.size = 5000) 
 pd_rare
 
 ##### Saving #####
