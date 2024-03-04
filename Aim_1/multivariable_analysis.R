@@ -8,7 +8,7 @@
 # R- squared value and pvalue. The R-squared statistic will indicate how much any one variable contributes to driving diversity.
 
 #set your working directory
-setwd("C:/Users/cloke/Documents/M - UBC/Courses/MICB 475/475_Group_Project/PERMNOVA")
+setwd("C:/Users/cloke/Documents/M - UBC/Courses/MICB 475/475_Group_Project/Aim_1")
 
 
 #import libraries 
@@ -16,6 +16,7 @@ library(tidyverse)
 library(phyloseq)
 library(vegan)
 library(ggplot2)
+library(cowplot)
 
 # Load rarafied dataset
 load("pd_rare.RData")
@@ -55,15 +56,12 @@ meta_control <-  data.frame(meta_control)
 #
 meta_all_nutrients <- meta_all[,c(38:98)]
 
-           # I will let you all try this part on your own. Howerver, it is
-           # possible to skip this step and run the following code for ALL metadata categories.
-           # The only purpose for this is so that the final figure remains consistent with the 
-           # research question. 
-           
+
 #Without filtering the metadata, the following line captures all column headers.
 nutrients_a = colnames(meta_all_nutrients)
 
-adonis.res_a = list()   #Build an empty list that will be filled up by the loop
+#Build an empty list that will be filled up by the loop
+adonis.res_a = list()   
 
 #Create a loop to go over each variable in the metadata.
 for (i in 1:61){                                #COMPLETE the for loop argument. You need to to loop through as many variables that are present in "nutrients". Use a range, IE (1:?)
@@ -102,18 +100,14 @@ save(result_a, file="result_a.RData")
 
 ###############################PLOTTING
 
-#Try and generate the plot yourself using ggplot.
-#Here is a skeleton of the plotting code. I wrote "FILLOUT" where information needs to be added.
-
-#Also, filter the results table to only include significant variables with a pvalue<0.05
+#filter the results table to only include significant variables with a pvalue<0.05
 
 result_filtered_a_p <- result_a %>% filter(Pvalue < 0.05)
 result_filtered_a_pad <- result_a %>% filter(Padjust < 0.05)
 
-#I use reorder() in the plot below. This is how you can look up what it does. 
-?reorder() #However, the best way is to google it.
+# Visualize Nutrients with Significant P-values < 0.05
 
-results_a_pvalue <- ggplot(data = result_filtered_a_p, aes(x = reorder(Nutrient, Pvalue),y=R2)) +
+results_a_pvalue <- ggplot(data = result_filtered_a_p, aes(x = reorder(Nutrient, R2, decreasing = FALSE),y=R2)) +
   geom_bar(stat='identity') +
   coord_flip() + 
   labs(y = "Adonis R2", x = "Nutrient", title = "Nutrients with P-Value < 0.05 in Entire Population")
@@ -124,11 +118,13 @@ ggsave(filename = "results_a_pvalue.png"
        , results_a_pvalue
        , height=4, width=4)
 
-results_a_padjust <- ggplot(data = result_filtered_a_pad, aes(x = reorder(Nutrient, Padjust),y=R2)) +
+# Visualize Nutrients with Significant adjusted P-values < 0.05
+
+results_a_padjust <- ggplot(data = result_filtered_a_pad, aes(x = reorder(Nutrient, R2, decreasing = FALSE),y=R2)) +
   geom_bar(stat='identity') +
   coord_flip() + 
   labs(y = "Adonis R2", x = "Nutrient", title = "Nutrients with Adjusted P < 0.05 in Entire Population")
-
+results_a_padjust
 
 # save png
 ggsave(filename = "results_a_pvadjust.png"
@@ -192,7 +188,8 @@ save(result_pd, file="result_pd.RData")
 result_filtered_pd_p <- result_pd %>% filter(Pvalue < 0.05)
 result_filtered_pd_pad <- result_pd %>% filter(Padjust < 0.05)
 
-results_pd_pvalue <- ggplot(data = result_filtered_pd_p, aes(x = reorder(Nutrient, Pvalue),y=R2)) +
+# Visualize Nutrients with Significant P-values < 0.05
+results_pd_pvalue <- ggplot(data = result_filtered_pd_p, aes(x = reorder(Nutrient, R2, decreasing = FALSE),y=R2)) +
   geom_bar(stat='identity') +
   coord_flip() +
   labs(y = "Adonis R2", x = "Nutrient", title = "Nutrients with P-Value < 0.05 in PD Patients")
@@ -203,7 +200,8 @@ ggsave(filename = "results_pd_pvalue.png"
        , results_pd_pvalue
        , height=4, width=4)
 
-results_pd_padjust <- ggplot(data = result_filtered_pd_pad, aes(x = reorder(Nutrient, Padjust),y=R2)) +
+# Visualize Nutrients with Significant P-values < 0.05
+results_pd_padjust <- ggplot(data = result_filtered_pd_pad, aes(x = reorder(Nutrient,  R2),y=R2)) +
   geom_bar(stat='identity') +
   coord_flip() + 
   labs(y = "Adonis R2", x = "Nutrient", title = "Nutrients with Adjusted P < 0.05 in PD Patients")
@@ -264,15 +262,12 @@ save(result_c, file="result_c.RData")
 
 ###############################PLOTTING
 
-#Try and generate the plot yourself using ggplot.
-#Here is a skeleton of the plotting code. I wrote "FILLOUT" where information needs to be added.
-
-#Also, filter the results table to only include significant variables with a pvalue<0.05
-
+# filter the results table to only include significant variables with a pvalue<0.05
 result_filtered_c_p <- result_c %>% filter(Pvalue < 0.05)
 result_filtered_c_pad <- result_c %>% filter(Padjust < 0.05)
 
-results_c_pvalue <- ggplot(data = result_filtered_c_p, aes(x = reorder(Nutrient, Pvalue),y=R2)) +
+# Visualize Nutrients with Significant P-values < 0.05
+results_c_pvalue <- ggplot(data = result_filtered_c_p, aes(x = reorder(Nutrient, R2, decreasing = FALSE),y=R2)) +
   geom_bar(stat='identity') +
   coord_flip() +
   labs(y = "Adonis R2", x = "Nutrient", title = "Nutrients with P-Value < 0.05 in Control Particiapants")
@@ -283,7 +278,8 @@ ggsave(filename = "results_c_pvalue.png"
        , results_c_pvalue
        , height=4, width=4)
 
-results_c_padjust <- ggplot(data = result_filtered_c_pad, aes(x = reorder(Nutrient, Padjust),y=R2)) +
+# Visualize Nutrients with Significant adjusted P-values < 0.05
+results_c_padjust <- ggplot(data = result_filtered_c_pad, aes(x = reorder(Nutrient, R2, decreasing = FALSE),y=R2)) +
   geom_bar(stat='identity') +
   coord_flip() + 
   labs(y = "Adonis R2", x = "Nutrient", title = "Nutrients with Adjusted P < 0.05 in Control Participants")
@@ -294,7 +290,7 @@ ggsave(filename = "results_c_padjust.png"
        , results_c_padjust
        , height=4, width=4)
 
-library(cowplot)
+# Plot Entire Population, PD Patients and Controls in side-by-side graphs
 p_value_comparison <- plot_grid(results_a_pvalue, results_pd_pvalue, results_c_pvalue, labels = "AUTO")
 
 ggsave(filename = "p_value_comparison.png"
