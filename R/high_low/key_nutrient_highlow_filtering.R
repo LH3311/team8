@@ -85,7 +85,7 @@ meta_pd <-  sample_data(pd_final)
 meta_pd <-  data.frame(meta_pd)
 
 # Save file
-save(pd_rare, file="high_low/highlow_final.RData")
+save(pd_final, file="high_low/highlow_final.RData")
 
 ############## High & Low Nutrients Rarefied ##############
 
