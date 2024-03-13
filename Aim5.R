@@ -9,11 +9,12 @@ load("~/Documents/GitHub/team8/R/high_low/highlow_final.RData")
 ###Transformation of Data
 highlow_plus1 <- transform_sample_counts(pd_final, function(x) x+1)
 
-#Remove all NAs from NSP highlow
-highlow_NSPs <- prune_samples(!is.na(highlow_plus1@sam_data$Non_Starch_Polysaccharides_highlow), highlow_plus1)
+###Transformation of Data
+highlow_plus1 <- transform_sample_counts(pd_final, function(x) x+1)
 
-#convert to deseq
-highlow_deseq <- phyloseq_to_deseq2(highlow_NSPs, ~ Non_Starch_Polysaccharides_highlow)
+#convert to deseq, remove NAs
+highlow_deseq <- phyloseq_to_deseq2(prune_samples(!is.na(highlow_plus1@sam_data$Non_Starch_Polysaccharides_highlow), highlow_plus1), ~ Non_Starch_Polysaccharides_highlow)
+
 
 ####NSP DESeq
 DESEQ_NSPs <- DESeq(highlow_deseq)
