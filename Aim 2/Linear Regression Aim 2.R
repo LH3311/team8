@@ -77,6 +77,13 @@ for (i in seq_along(control_models)) {
   control_significant_p_values[[response_variables[i]]] <- control_p_values[control_p_values < 0.05]
 }
 
+# Convert the list of significant p-values into a data frame
+pd_significant_p_values_df <- do.call(rbind, pd_significant_p_values)
+control_significant_p_values_df <- do.call(rbind, control_significant_p_values)
+
+print(pd_significant_p_values_df)
+print(control_significant_p_values_df)
+
 #Testing av plots from car
 for (i in seq_along(pd_models)) {
   cat("AV Plot for Response Variable:", response_variables[i], "\n")
