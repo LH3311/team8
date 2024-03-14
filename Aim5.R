@@ -54,7 +54,7 @@ sigASVs_NSP_PD <- tax_table(highlow_deseq_NSP_PD) %>% as.data.frame() %>%
   mutate(Genus = factor(Genus, levels=unique(Genus)))
 
 sigASVs_NSP_PD_barplot <- ggplot(sigASVs_NSP_PD) +
-  geom_bar(aes(x=Genus, y=log2FoldChange), stat="identity")+
+  geom_bar(aes(x=Genus, y=log2FoldChange, fill = Phylum), stat="identity")+
   geom_errorbar(aes(x=Genus, ymin=log2FoldChange-lfcSE, ymax=log2FoldChange+lfcSE)) +
   theme(axis.text.x = element_text(angle=90, hjust=1, vjust=0.5)) +
   ggtitle("Significant ASVs: NSPs PD high vs PD low")
@@ -100,7 +100,7 @@ sigASVs_NSP_control <- tax_table(highlow_deseq_NSP_control) %>% as.data.frame() 
   mutate(Genus = factor(Genus, levels=unique(Genus)))
 
 sigASVs_NSP_control_barplot <- ggplot(sigASVs_NSP_control) +
-  geom_bar(aes(x=Genus, y=log2FoldChange), stat="identity")+
+  geom_bar(aes(x=Genus, y=log2FoldChange, fill = Phylum), stat="identity")+
   geom_errorbar(aes(x=Genus, ymin=log2FoldChange-lfcSE, ymax=log2FoldChange+lfcSE)) +
   theme(axis.text.x = element_text(angle=90, hjust=1, vjust=0.5)) +
   ggtitle("Significant ASVs: NSPs control high vs control low")
@@ -153,7 +153,7 @@ sigASVs_TF_PD <- tax_table(highlow_deseq_TF_PD) %>% as.data.frame() %>%
   mutate(Genus = factor(Genus, levels=unique(Genus)))
 
 sigASVs_TF_PD_barplot <- ggplot(sigASVs_TF_PD) +
-  geom_bar(aes(x=Genus, y=log2FoldChange), stat="identity")+
+  geom_bar(aes(x=Genus, y=log2FoldChange, fill = Phylum), stat="identity")+
   geom_errorbar(aes(x=Genus, ymin=log2FoldChange-lfcSE, ymax=log2FoldChange+lfcSE)) +
   theme(axis.text.x = element_text(angle=90, hjust=1, vjust=0.5)) +
   ggtitle("Significant ASVs: TF PD high vs PD low")
@@ -199,7 +199,7 @@ sigASVs_TF_control <- tax_table(highlow_deseq_TF_control) %>% as.data.frame() %>
   mutate(Genus = factor(Genus, levels=unique(Genus)))
 
 sigASVs_TF_control_barplot <- ggplot(sigASVs_TF_control) +
-  geom_bar(aes(x=Genus, y=log2FoldChange), stat="identity")+
+  geom_bar(aes(x=Genus, y=log2FoldChange, fill = Phylum), stat="identity")+
   geom_errorbar(aes(x=Genus, ymin=log2FoldChange-lfcSE, ymax=log2FoldChange+lfcSE)) +
   theme(axis.text.x = element_text(angle=90, hjust=1, vjust=0.5)) +
   ggtitle("Significant ASVs: TF control high vs control low")
@@ -254,7 +254,7 @@ sigASVs_VitC_PD <- tax_table(highlow_deseq_VitC_PD) %>% as.data.frame() %>%
   mutate(Genus = factor(Genus, levels=unique(Genus)))
 
 sigASVs_VitC_PD_barplot <- ggplot(sigASVs_VitC_PD) +
-  geom_bar(aes(x=Genus, y=log2FoldChange), stat="identity")+
+  geom_bar(aes(x=Genus, y=log2FoldChange, fill = Phylum), stat="identity")+
   geom_errorbar(aes(x=Genus, ymin=log2FoldChange-lfcSE, ymax=log2FoldChange+lfcSE)) +
   theme(axis.text.x = element_text(angle=90, hjust=1, vjust=0.5)) +
   ggtitle("Significant ASVs: VitC PD high vs PD low")
@@ -300,7 +300,7 @@ sigASVs_VitC_control <- tax_table(highlow_deseq_VitC_control) %>% as.data.frame(
   mutate(Genus = factor(Genus, levels=unique(Genus)))
 
 sigASVs_VitC_control_barplot <- ggplot(sigASVs_VitC_control) +
-  geom_bar(aes(x=Genus, y=log2FoldChange), stat="identity")+
+  geom_bar(aes(x=Genus, y=log2FoldChange, fill = Phylum), stat="identity")+
   geom_errorbar(aes(x=Genus, ymin=log2FoldChange-lfcSE, ymax=log2FoldChange+lfcSE)) +
   theme(axis.text.x = element_text(angle=90, hjust=1, vjust=0.5)) +
   ggtitle("Significant ASVs: VitC control high vs control low")
@@ -355,7 +355,7 @@ sigASVs_VitB2_PD <- tax_table(highlow_deseq_VitB2_PD) %>% as.data.frame() %>%
   mutate(Genus = factor(Genus, levels=unique(Genus)))
 
 sigASVs_VitB2_PD_barplot <- ggplot(sigASVs_VitB2_PD) +
-  geom_bar(aes(x=Genus, y=log2FoldChange), stat="identity")+
+  geom_bar(aes(x=Genus, y=log2FoldChange, fill = Phylum), stat="identity")+
   geom_errorbar(aes(x=Genus, ymin=log2FoldChange-lfcSE, ymax=log2FoldChange+lfcSE)) +
   theme(axis.text.x = element_text(angle=90, hjust=1, vjust=0.5)) +
   ggtitle("Significant ASVs: VitB2 PD high vs PD low")
@@ -401,7 +401,7 @@ sigASVs_VitB2_control <- tax_table(highlow_deseq_VitB2_control) %>% as.data.fram
   mutate(Genus = factor(Genus, levels=unique(Genus)))
 
 sigASVs_VitB2_control_barplot <- ggplot(sigASVs_VitB2_control) +
-  geom_bar(aes(x=Genus, y=log2FoldChange), stat="identity")+
+  geom_bar(aes(x=Genus, y=log2FoldChange, fill = Phylum), stat="identity")+
   geom_errorbar(aes(x=Genus, ymin=log2FoldChange-lfcSE, ymax=log2FoldChange+lfcSE)) +
   theme(axis.text.x = element_text(angle=90, hjust=1, vjust=0.5)) +
   ggtitle("Significant ASVs: VitB2 control high vs control low")
@@ -456,7 +456,7 @@ sigASVs_Fruc_PD <- tax_table(highlow_deseq_Fruc_PD) %>% as.data.frame() %>%
   mutate(Genus = factor(Genus, levels=unique(Genus)))
 
 sigASVs_Fruc_PD_barplot <- ggplot(sigASVs_Fruc_PD) +
-  geom_bar(aes(x=Genus, y=log2FoldChange), stat="identity")+
+  geom_bar(aes(x=Genus, y=log2FoldChange, fill = Phylum), stat="identity")+
   geom_errorbar(aes(x=Genus, ymin=log2FoldChange-lfcSE, ymax=log2FoldChange+lfcSE)) +
   theme(axis.text.x = element_text(angle=90, hjust=1, vjust=0.5)) +
   ggtitle("Significant ASVs: Fruc PD high vs PD low")
@@ -502,7 +502,7 @@ sigASVs_Fruc_control <- tax_table(highlow_deseq_Fruc_control) %>% as.data.frame(
   mutate(Genus = factor(Genus, levels=unique(Genus)))
 
 sigASVs_Fruc_control_barplot <- ggplot(sigASVs_Fruc_control) +
-  geom_bar(aes(x=Genus, y=log2FoldChange), stat="identity")+
+  geom_bar(aes(x=Genus, y=log2FoldChange, fill = Phylum), stat="identity")+
   geom_errorbar(aes(x=Genus, ymin=log2FoldChange-lfcSE, ymax=log2FoldChange+lfcSE)) +
   theme(axis.text.x = element_text(angle=90, hjust=1, vjust=0.5)) +
   ggtitle("Significant ASVs: Fruc control high vs control low")
@@ -557,7 +557,7 @@ sigASVs_COFE_PD <- tax_table(highlow_deseq_COFE_PD) %>% as.data.frame() %>%
   mutate(Genus = factor(Genus, levels=unique(Genus)))
 
 sigASVs_COFE_PD_barplot <- ggplot(sigASVs_COFE_PD) +
-  geom_bar(aes(x=Genus, y=log2FoldChange), stat="identity")+
+  geom_bar(aes(x=Genus, y=log2FoldChange, fill = Phylum), stat="identity")+
   geom_errorbar(aes(x=Genus, ymin=log2FoldChange-lfcSE, ymax=log2FoldChange+lfcSE)) +
   theme(axis.text.x = element_text(angle=90, hjust=1, vjust=0.5)) +
   ggtitle("Significant ASVs: COFE PD high vs PD low")
@@ -603,7 +603,7 @@ sigASVs_COFE_control <- tax_table(highlow_deseq_COFE_control) %>% as.data.frame(
   mutate(Genus = factor(Genus, levels=unique(Genus)))
 
 sigASVs_COFE_control_barplot <- ggplot(sigASVs_COFE_control) +
-  geom_bar(aes(x=Genus, y=log2FoldChange), stat="identity")+
+  geom_bar(aes(x=Genus, y=log2FoldChange, fill = Phylum), stat="identity")+
   geom_errorbar(aes(x=Genus, ymin=log2FoldChange-lfcSE, ymax=log2FoldChange+lfcSE)) +
   theme(axis.text.x = element_text(angle=90, hjust=1, vjust=0.5)) +
   ggtitle("Significant ASVs: COFE control high vs control low")
