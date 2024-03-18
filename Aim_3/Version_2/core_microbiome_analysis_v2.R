@@ -82,6 +82,8 @@ for (nutrient in sig_nutrient) {
   shared_all_asv = list()
   pd_high_asv = list()
   pd_low_asv = list()
+  control_high_asv = list()
+  control_low_asv = list()
   
   # Extracting ASVs of interest
   for (i in names){
@@ -89,6 +91,10 @@ for (nutrient in sig_nutrient) {
       pd_high_asv[[i]] = i
     } else if (!i %in% pd_high_ASVs & i %in% pd_low_ASVs & !i %in% control_high_ASVs & !i %in% control_low_ASVs) { # PD low only
       pd_low_asv[[i]] = i
+    } else if (!i %in% pd_high_ASVs & !i %in% pd_low_ASVs & i %in% control_high_ASVs & !i %in% control_low_ASVs) { # control high only
+      control_high_asv[[i]] = i
+    } else if (!i %in% pd_high_ASVs & !i %in% pd_low_ASVs & !i %in% control_high_ASVs & i %in% control_low_ASVs) { # control low only
+      control_low_asv[[i]] = i
     } else if (i %in% pd_high_ASVs & i %in% pd_low_ASVs & i %in% control_high_ASVs & i %in% control_low_ASVs) { #Shared in all groups
       shared_all_asv[[i]] = i
     }
@@ -96,7 +102,9 @@ for (nutrient in sig_nutrient) {
   all_asv <- list(
     shared_all_asv = shared_all_asv,
     pd_high_asv = pd_high_asv,
-    pd_low_asv = pd_low_asv
+    pd_low_asv = pd_low_asv,
+    control_high_asv = control_high_asv,
+    control_low_asv = control_low_asv
   )
   
   # Turning ASVs of interest into table with taxa info
