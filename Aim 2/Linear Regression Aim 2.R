@@ -5,6 +5,7 @@ library(tidyverse)
 library(phyloseq)
 library(car)
 
+
 #Loading rarified PD phyloseq object 
 load("pd_rare.Rdata")
 
@@ -58,31 +59,105 @@ for (i in seq_along(control_models)) {
   cat("\n")
 }
 
+
+#Above code modified to instead store all the calculated p_values and their respective response variable
+pd_p_values_table <- data.frame(Response_Variable = character(),
+                                P_Value = numeric(),
+                                stringsAsFactors = FALSE)
+
+control_p_values_table <- data.frame(Response_Variable = character(),
+                                P_Value = numeric(),
+                                stringsAsFactors = FALSE)
+
+# Loop through each model and extract p-values
+for (i in seq_along(pd_models)) {
+  model_summary <- summary(pd_models[[i]])
+  pd_p_values <- coef(model_summary)[, "Pr(>|t|)"]  
+  
+  response_variable <- response_variables[i]
+  pd_p_values_table <- rbind(pd_p_values_table, data.frame(Response_Variable = response_variable,
+                                                           P_Value = pd_p_values))
+  
+  cat("Summary of Model for Response Variable:", response_variable, "\n")
+  print(model_summary)
+  cat("\n")
+}
+
+for (i in seq_along(control_models)) {
+  model_summary <- summary(control_models[[i]])
+  control_p_values <- coef(model_summary)[, "Pr(>|t|)"]  
+  
+  response_variable <- response_variables[i]
+  control_p_values_table <- rbind(control_p_values_table, data.frame(Response_Variable = response_variable,
+                                                           P_Value = control_p_values))
+  
+  cat("Summary of Model for Response Variable:", response_variable, "\n")
+  print(model_summary)
+  cat("\n")
+}
+
+
+
 # Creating empty list to store significant p values retrieved from for loops below
-pd_significant_p_values <- list()
-control_significant_p_values <- list()
+pd_significant_p_values <- data.frame()
+control_significant_p_values <- data.frame()
 
 # Access and extract significant p-values from each model
 for (i in seq_along(pd_models)) {
   pd_model_summary <- summary(pd_models[[i]])
-  pd_coefficients <- coef(pd_model_summary)
-  pd_p_values <- pd_coefficients[, "Pr(>|t|)"]
-  pd_significant_p_values[[response_variables[i]]] <- pd_p_values[pd_p_values < 0.05]
+  pd_coefficients <- as.data.frame(coef(pd_model_summary))
+  pd_coefficients$predictors = rownames(pd_coefficients)
+  
+  pd_pval_filtered = pd_coefficients %>%
+    filter(pd_coefficients$`Pr(>|t|)` < 0.05)
+  
+  if (dim(pd_pval_filtered)[1] != 0 ){
+    pd_pval_filtered$response = response_variables[[i]]
+    pd_significant_p_values <- rbind(pd_significant_p_values,pd_pval_filtered)
+  } else{}
 }
 
 for (i in seq_along(control_models)) {
+  #i=4
   control_model_summary <- summary(control_models[[i]])
-  control_coefficients <- coef(control_model_summary)
-  control_p_values <- control_coefficients[, "Pr(>|t|)"]
-  control_significant_p_values[[response_variables[i]]] <- control_p_values[control_p_values < 0.05]
+  control_coefficients <- as.data.frame(coef(control_model_summary))
+  control_coefficients$predictors = rownames(control_coefficients)
+  
+  control_pval_filtered = control_coefficients %>%
+    filter(control_coefficients$`Pr(>|t|)` < 0.05)
+  
+  if (dim(control_pval_filtered)[1] != 0 ){
+    control_pval_filtered$response = response_variables[[i]]
+    control_significant_p_values <- rbind(control_significant_p_values,control_pval_filtered)
+  } else{}
+  
+  
 }
 
-# Convert the list of significant p-values into a data frame
-pd_significant_p_values_df <- do.call(rbind, pd_significant_p_values)
-control_significant_p_values_df <- do.call(rbind, control_significant_p_values)
+#Plotting Significant Non_alcoholic_bevs against ACE, Fisher, Chao1 
 
-print(pd_significant_p_values_df)
-print(control_significant_p_values_df)
+ace_gg <- ggplot(control_wdiv, aes(x = Non_alcoholic_bevs, y = ACE)) + 
+  geom_point() +
+  stat_smooth(method = "lm", col = "red") 
+
+chao1_gg <- ggplot(control_wdiv, aes(x = Non_alcoholic_bevs, y = Chao1)) + 
+  geom_point() +
+  stat_smooth(method = "lm", col = "red")
+
+fisher_gg <- ggplot(control_wdiv, aes(x = Non_alcoholic_bevs, y = Fisher)) + 
+  geom_point() +
+  stat_smooth(method = "lm", col = "red")
+
+#Plotting Significant Beta_carotene against Simpson
+simpson_gg <- ggplot(control_wdiv, aes(x = Beta_carotene, y = Simpson)) + 
+  geom_point() +
+  stat_smooth(method = "lm", col = "red")
+
+ggsave("Non Alcoholic Beverages Against ACE.png", plot = ace_gg, width = 5, height = 5)
+ggsave("Non Alcoholic Beverages Against Chao1.png", plot = chao1_gg, width = 5, height = 5)
+ggsave("Non Alcoholic Beverages Against Fisher.png", plot = fisher_gg, width = 5, height =5)
+ggsave("Beta Carotene Against Simpson.png", plot = simpson_gg, width = 5, height = 5)
+
 
 #Testing av plots from car
 for (i in seq_along(pd_models)) {
@@ -90,4 +165,6 @@ for (i in seq_along(pd_models)) {
   av_plot <- avPlots(pd_models[[i]], ask = FALSE)
   print(av_plot)
 }
+
+
 

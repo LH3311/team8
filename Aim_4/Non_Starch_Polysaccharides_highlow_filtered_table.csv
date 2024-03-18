@@ -1,0 +1,12 @@
+"ASV","s.control_high","s.control_low","s.pd_high","s.pd_low","index","stat","p.value","Domain","Phylum","Class","Order","Family","Genus","Species"
+"9acab948cc8c490513c3f62be2215323",0,1,0,0,2,0.267106890675526,0.045,"d__Bacteria","p__Campilobacterota","c__Campylobacteria","o__Campylobacterales","f__Campylobacteraceae","g__Campylobacter",NA
+"e52994cd67774b8f72113d04a0b2c493",1,0,1,1,13,0.576276078477914,0.015,"d__Bacteria","p__Firmicutes","c__Clostridia","o__Peptostreptococcales-Tissierellales","f__Anaerovoracaceae","g__Family_XIII_UCG-001","s__uncultured_bacterium"
+"e9b61e26319af1f703fe51e108e285f5",1,0,1,0,6,0.384720846286795,0.015,"d__Bacteria","p__Firmicutes","c__Bacilli","o__Erysipelotrichales","f__Erysipelatoclostridiaceae","g__UCG-004","s__unidentified_rumen"
+"4c8288bfbd76958c0c094d87b97650f8",1,1,0,1,12,0.713167011481879,0.025,"d__Bacteria","p__Proteobacteria","c__Gammaproteobacteria","o__Enterobacterales","f__Enterobacteriaceae","g__Escherichia-Shigella",NA
+"860a5e9ee39ccb39131b57de03fb5bf8",0,1,1,1,14,0.569174498978503,0.025,"d__Bacteria","p__Desulfobacterota","c__Desulfovibrionia","o__Desulfovibrionales","f__Desulfovibrionaceae","g__uncultured","s__uncultured_Desulfovibrionaceae"
+"861d861704ef6eac3ab9fdbe008fcb85",1,0,0,0,1,0.400523563616868,0.015,"d__Bacteria","p__Firmicutes","c__Clostridia","o__Oscillospirales","f__Butyricicoccaceae","g__UCG-008","s__uncultured_bacterium"
+"fdc9a6c69a6b7d728eb6dfe27e462441",1,0,0,0,1,0.394759439047352,0.01,"d__Bacteria","p__Firmicutes","c__Clostridia","o__Lachnospirales","f__Lachnospiraceae","g__GCA-900066575","s__uncultured_bacterium"
+"84311c29ab5cf09c0720c450dc7c1a43",1,1,1,0,11,0.621006338522243,0.01,"d__Bacteria","p__Bacteroidota","c__Bacteroidia","o__Bacteroidales","f__Muribaculaceae","g__Muribaculaceae","s__uncultured_organism"
+"93f6e99ff381954b541d29cc24c2be7c",0,1,0,1,9,0.465398723437637,0.01,"d__Bacteria","p__Firmicutes","c__Clostridia","o__Lachnospirales","f__Lachnospiraceae","g__[Ruminococcus]_gnavus_group",NA
+"d926c5000a193dc8473f190e75b9fcd0",1,0,1,0,6,0.468102848126682,0.045,"d__Bacteria","p__Firmicutes","c__Clostridia","o__Lachnospirales","f__Lachnospiraceae","g__Marvinbryantia",NA
+"506aa1d680b6d3ca57043bc799d377f6",1,1,1,0,11,0.679225753512475,0.005,"d__Bacteria","p__Firmicutes","c__Clostridia","o__Lachnospirales","f__Lachnospiraceae","g__Lachnospiraceae_UCG-004",NA

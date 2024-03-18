@@ -1,0 +1,11 @@
+"ASV","s.control_high","s.control_low","s.pd_high","s.pd_low","index","stat","p.value","Domain","Phylum","Class","Order","Family","Genus","Species"
+"327e928d80b137060bd55c0515d64b2a",0,0,1,0,3,0.390975807918585,0.025,"d__Bacteria","p__Firmicutes","c__Bacilli","o__Erysipelotrichales","f__Erysipelotrichaceae","g__Merdibacter","s__uncultured_bacterium"
+"8408059b62784f6a2740d42ac2aa1069",0,0,1,0,3,0.324042301953108,0.025,"d__Bacteria","p__Firmicutes","c__Bacilli","o__Erysipelotrichales","f__Erysipelotrichaceae","g__Solobacterium","s__uncultured_bacterium"
+"b287c87a16ef231b6b93625eceae36b1",1,0,1,0,6,0.407962299654856,0.015,"d__Bacteria","p__Firmicutes","c__Bacilli","o__Acholeplasmatales","f__Acholeplasmataceae","g__Anaeroplasma","s__uncultured_bacterium"
+"67ee7d8563bb02d0d54f077807ea5ecb",0,0,0,1,4,0.318925615168139,0.04,"d__Bacteria","p__Firmicutes","c__Negativicutes","o__Veillonellales-Selenomonadales","f__Veillonellaceae","g__Megasphaera",NA
+"a40c4542d94ef41b172993f2f29cfeb2",0,0,0,1,4,0.300231089254532,0.03,"d__Bacteria","p__Proteobacteria","c__Gammaproteobacteria","o__Pasteurellales","f__Pasteurellaceae",NA,NA
+"969deec2ae0da8684a13ab43a5339a7d",1,0,0,0,1,0.327125079762471,0.005,"d__Bacteria","p__Desulfobacterota","c__Desulfovibrionia","o__Desulfovibrionales","f__Desulfovibrionaceae","g__Mailhella","s__Desulfovibrio_sp."
+"970c4c927d69ee41accb2c1a29f9a023",1,1,0,0,5,0.582545735041322,0.01,"d__Bacteria","p__Firmicutes","c__Clostridia","o__Lachnospirales","f__Lachnospiraceae","g__[Eubacterium]_ruminantium_group","s__uncultured_bacterium"
+"c43bbd203d077ba15c26090580d64d32",1,0,1,1,13,0.669785880208671,0.035,"d__Bacteria","p__Firmicutes","c__Clostridia","o__Oscillospirales","f__Ruminococcaceae","g__UBA1819","s__uncultured_organism"
+"c4af48baf45e8f24d7d7979a8699627f",0,0,0,1,4,0.294883912309794,0.04,"d__Bacteria","p__Firmicutes","c__Clostridia","o__Oscillospirales","f__Ruminococcaceae","g__Phocea","s__uncultured_bacterium"
+"4661cd41d2df6a4bf70276894e6cc779",1,0,1,0,6,0.455456899565968,0.045,"d__Bacteria","p__Firmicutes","c__Clostridia","o__Lachnospirales","f__Lachnospiraceae","g__Lachnospiraceae_FCS020_group","s__uncultured_organism"
