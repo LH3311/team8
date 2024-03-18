@@ -1,0 +1,11 @@
+"ASV","s.control_high","s.control_low","s.GENERAL","s.pd_high","s.pd_low","index","stat","p.value","Domain","Phylum","Class","Order","Family","Genus","Species"
+"fc4575c432e5f43c1eaf202f1c5816c4",1,0,1,1,1,29,0.581190765428207,0.01,"d__Bacteria","p__Firmicutes","c__Bacilli","o__Erysipelotrichales","f__Erysipelotrichaceae","g__Turicibacter",NA
+"7d0ccb9242c92ba67eae0552bf7c6f94",1,0,1,1,1,29,0.735505400153823,0.005,"d__Bacteria","p__Firmicutes","c__Clostridia","o__Peptostreptococcales-Tissierellales","f__Peptostreptococcaceae","g__Romboutsia",NA
+"5a3a601a1eb46ee2f21e8fb509c0720c",0,0,0,1,0,4,0.229415733870562,0.03,"d__Bacteria","p__Firmicutes","c__Clostridia","o__Peptostreptococcales-Tissierellales","f__Peptostreptococcales-Tissierellales","g__Ezakiella","s__uncultured_bacterium"
+"fdc9a6c69a6b7d728eb6dfe27e462441",1,1,0,0,0,6,0.345350823735177,0.02,"d__Bacteria","p__Firmicutes","c__Clostridia","o__Lachnospirales","f__Lachnospiraceae","g__GCA-900066575","s__uncultured_bacterium"
+"7181b9d732cc0c95f0f605bff39302dd",0,1,0,0,0,2,0.314802342359344,0.03,"d__Bacteria","p__Firmicutes","c__Clostridia","o__Lachnospirales","f__Lachnospiraceae","g__[Bacteroides]_pectinophilus_group","s__uncultured_bacterium"
+"970c4c927d69ee41accb2c1a29f9a023",1,1,0,0,0,6,0.585505667695376,0.005,"d__Bacteria","p__Firmicutes","c__Clostridia","o__Lachnospirales","f__Lachnospiraceae","g__[Eubacterium]_ruminantium_group","s__uncultured_bacterium"
+"2d19c00f3788a2fb57d142a92d0d7ea9",1,1,0,1,1,28,0.485479989527516,0.02,"d__Bacteria","p__Firmicutes","c__Clostridia","o__Oscillospirales","f__Ruminococcaceae","g__Angelakisella","s__uncultured_bacterium"
+"f4c1c883e499e7bd0b79e8389fda2c1a",0,1,0,1,0,11,0.323761712550617,0.015,"d__Bacteria","p__Firmicutes","c__Clostridia","o__Oscillospirales","f__Oscillospiraceae","g__Pseudoflavonifractor","s__uncultured_bacterium"
+"77be5efca77e4204775e4e828a1580db",1,1,0,1,1,28,0.590603425282886,0.015,"d__Bacteria","p__Bacteroidota","c__Bacteroidia","o__Bacteroidales","f__Barnesiellaceae","g__Coprobacter",NA
+"b8987c5d3c76dafe8b6470c5cccaba7c",1,1,0,0,1,18,0.398749818379946,0.02,"d__Bacteria","p__Firmicutes","c__Clostridia","o__Lachnospirales","f__Lachnospiraceae","g__Butyrivibrio",NA
