@@ -1,0 +1,26 @@
+qiime feature-table filter-features \
+  --i-table table.qza \
+  --p-min-frequency 5 \
+  --o-filtered-table feature-frequency-filtered-table.qza
+
+qiime picrust2 full-pipeline \
+  --i-table feature-frequency-filtered-table.qza \
+  --i-seq rep-seqs.qza \
+  --output-dir q2-picrust2_output \
+  --p-placement-tool sepp \
+  --p-hsp-method pic \
+  --p-max-nsti 2 \
+  --verbose
+
+# Convert the output files to human readable files
+qiime tools export \
+  --input-path q2-picrust2_output/pathway_abundance.qza \
+  --output-path pathabun_exported
+
+biom convert \
+   -i pathabun_exported/feature-table.biom \
+   -o pathabun_exported/pathway_abundance.tsv \
+   --to-tsv
+
+#transfer .qza files to personal computer
+scp -r root@10.19.139.173:/home/qiime2/data/pd/pathabun_exported .
