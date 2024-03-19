@@ -4,7 +4,7 @@ library(phyloseq)
 library(DESeq2)
 library(dplyr)
 
-load("highlow_final.RData")
+load("~/Documents/GitHub/team8/R/high_low/highlow_final.RData")
 
 #convert to deseq, remove NAs
 highlow_plus1 <- transform_sample_counts(pd_final, function(x) x+1)
@@ -41,6 +41,7 @@ for (nutrient in sig_nutrients) {
     mutate(significant = padj<0.01 & abs(log2FoldChange)>2) %>%
     ggplot() +
     geom_point(aes(x=log2FoldChange, y=-log10(padj), col=significant))+
+    scale_color_manual(values = c("FALSE" = "black", "TRUE" = "red"))
     ggtitle(title)
   ## Save volcano plot
   ggsave(paste("Aim_5/", nutrient, setting[4], sep = ""),PD_vol_plot)
@@ -85,7 +86,7 @@ for (nutrient in sig_nutrients) {
     geom_errorbar(aes(x=Genus, ymin=log2FoldChange-lfcSE, ymax=log2FoldChange+lfcSE)) +
     theme(axis.text.x = element_text(angle=90, hjust=1, vjust=0.5)) +
     ggtitle(paste("Significant ASVs, ", title, sep = ""))
-  #sigASVs_barplot
+  sigASVs_barplot
 
   ## Save barplot
   ggsave(paste("Aim_5/sigASVs_", nutrient, setting[4], sep = ""), sigASVs_barplot)
@@ -111,7 +112,7 @@ for (nutrient in sig_nutrients) {
   sigASVs <- deseq_results %>% 
     filter(padj<0.01 & abs(log2FoldChange)>2) %>%
     dplyr::rename(ASV=row)
-  #View(sigASVs)
+  View(sigASVs)
   ## Get only asv names
   sigASVs_vec <- sigASVs %>%
     pull(ASV)
@@ -139,3 +140,4 @@ for (nutrient in sig_nutrients) {
 
 # Saving list of ASVs
 save(asv_list, file="Aim_5/asv_list.RData")
+
