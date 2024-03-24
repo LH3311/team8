@@ -15,7 +15,7 @@ sig_nutrients <- c("Non_Starch_Polysaccharides_highlow","Total_folate_highlow",
   
 ### Settings, CHOOSE BEFORE RUNNING ANY OF THE FOLLOWING CODE ###
 # Use for comparing high and low in PD
-setting <- c("pd_high","pd_low", ": PD high vs PD low", "_PD_vol_plot.png")
+#setting <- c("pd_high","pd_low", ": PD high vs PD low", "_PD_vol_plot.png")
 # Use for comparing high and low in Control
 setting <- c("control_high","control_low", ": Control high vs Control low", "_control_vol_plot.png")
 
@@ -37,7 +37,8 @@ for (nutrient in sig_nutrients) {
   title <- gsub("_", " ", nutrient)
   title <- gsub(" highlow", setting[3], title)
   
-  PD_vol_plot <- deseq_results %>%
+  PD_vol_plot <- deseq_results %>% 
+    drop_na(log2FoldChange) %>% 
     mutate(significant = padj<0.01 & abs(log2FoldChange)>2) %>%
     ggplot() +
     geom_point(aes(x=log2FoldChange, y=-log10(padj), col=significant))+
@@ -78,7 +79,8 @@ for (nutrient in sig_nutrients) {
     right_join(sigASVs) %>%
     arrange(log2FoldChange) %>%
     mutate(Genus = make.unique(Genus)) %>%
-    mutate(Genus = factor(Genus, levels=unique(Genus)))
+    mutate(Genus = factor(Genus, levels=unique(Genus))) %>%
+    drop_na(Genus)
   
   ## Generate barplot
   sigASVs_barplot <- ggplot(sigASVs) +
@@ -143,23 +145,35 @@ save(asv_list, file="Aim_5/asv_list.RData")
 
 
 
-###########################################################
-#load phyloseq obj
-load("pd_final.RData")
 
-#Specify the phylum, class, order, genus etc that you are interested in
-taxa = "g__Akkermansia"
+##########################################################
+
+# Load Packages
+library(tidyverse)
+library(ggplot2)
+library(phyloseq)
+library(microbiome)
+
+load("highlow_final.RData")
+
+# Specify the phylum, class, order, genus etc that you are interested in
+taxa = "g__Alistipes"
 taxa_level = "Genus"
 
 
-#Convert matric to relative abundance
+# Specify which nutrient to look in
+nutrient <- "Fructose_highlow"
+sig_nutrient <- c("Non_Starch_Polysaccharides_highlow", "Total_folate_highlow",
+                  "Vitamin_C_highlow", "Vitamin_B2_highlow", "Fructose_highlow", "Coffe_drinker_highlow")
+
+##########################################################
+
+#Convert matrix to relative abundance
 pd_RA <- transform_sample_counts(pd_final, fun=function(x) x/sum(x))
 #Subset the phylsoeq to the taxa of interest
-sub_beta_RA <- subset_taxa(pd_RA, Genus == taxa)
+sub_beta_RA <- subset_taxa(pd_RA, Genus == taxa) ###################### MAKE SURE TAXA LEVEL MATCHES
 #Collapse the ASVs of similar taxa rank (EX. Make all species of the same genus into one row)
 sub_beta_order_RA <-tax_glom(sub_beta_RA, taxrank = taxa_level, NArm = FALSE)
-
-
 
 #Extracting asv matrix and adding a sampleID column to merge with the metadata
 asv_df = data.frame(otu_table(sub_beta_order_RA))
@@ -169,39 +183,39 @@ asv_df$sampleID = rownames(asv_df)
 
 #Extracting metadata and adding sampleID column to merge with asvs
 metadata = data.frame(sample_data(sub_beta_order_RA))
-metadata$sampleID  =rownames(metadata)
+metadata$sampleID = rownames(metadata)
 
-#Merging ASVs and metadata
-asv_metadata_joined =  inner_join(metadata, asv_df, by = "sampleID")
-
-#Removing NA's for treatment column of interest
-asv_metadata_joined = asv_metadata_joined[!is.na(asv_metadata_joined$treatment),]
+#Merging ASVs and metadata, removing NA's from column of interest
+asv_metadata_joined = inner_join(metadata, asv_df, by = "sampleID")
+asv_metadata_joined = asv_metadata_joined[!is.na(asv_metadata_joined[[nutrient]]),]
 
 #Plotting relative abundance as a barplot (violin plot also acceptable)
-ggplot(asv_metadata_joined, aes(treatment, relative_abundance, fill = treatment))+
+boxRA <- ggplot(asv_metadata_joined, aes(.data[[nutrient]], relative_abundance, fill = .data[[nutrient]]))+
   geom_boxplot()+
   theme_classic()+
-  theme(axis.title = element_text(size=rel(2), face = "bold"),
-        axis.text = element_text(size=rel(1.4),face="bold", angle = 90),
-        legend.position = "none")+
-  labs(y="Relative Abundance (%)",x= "Treatments")
-
+  theme(legend.position = "none")+
+  labs(y="Relative Abundance (%)",x= "Treatments")+
+  ggtitle("Folate: Relative Abundance of Prevotella")
+boxRA
+ggsave("~/Documents/GitHub/team8/Aim_5/boxRA_Folate_Prevotella.png", boxRA)
 
 #Taking the average of relative abundance for all 4 groups
 sum_df = asv_metadata_joined %>%
-  group_by(Disease, treatment) %>%
+  group_by(Disease, .data[[nutrient]]) %>%
   dplyr::summarise(mean = mean(relative_abundance), sd = sd(relative_abundance))
 
-ggplot(sum_df, aes(treatment, mean, fill = treatment))+
+bar_plot_RA <- ggplot(sum_df, aes(.data[[nutrient]], mean, fill = .data[[nutrient]]))+
   geom_errorbar(data = sum_df, aes(ymin = 0.005 ,ymax = mean+sd),width = 0.2, size = 1 )+
   geom_col()+
-  theme_classic()+
-  theme(axis.title = element_text(size=rel(2), face = "bold"),
-        axis.text = element_text(size=rel(1.4),face="bold", angle = 90),
-        legend.position = "none")+
-  labs(y="Relative Abundance (%)",x= "Treatments")
+  theme_grey()+
+  theme(legend.position = "none")+
+  labs(y="Relative Abundance (%)",x= "Treatments")+
+  ggtitle("NSP: Relative Abundance of Prevotella")
+bar_plot_RA
+
+ggsave("~/Documents/GitHub/team8/Aim_5/RA_Folate_Prevotella.png", bar_plot_RA)
+
 
 #used for looking at taxa_table
-#View(tax_table(pd_RA))
-
+View(tax_table(pd_RA))
 
