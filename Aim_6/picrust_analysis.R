@@ -32,42 +32,51 @@ library(ggprism)
 library(patchwork)
 library(DESeq2)
 library(ggh4x)
+library(vegan)
 
+# Set Working Directory
+setwd("~/M - UBC/Courses/MICB 475/475_Group_Project/Aim_6")
 
 #### Import files and preparing tables ####
 #Importing the pathway PICrsut2
-abundance_file <- "picrust2_out_pipeline/pathways_out/path_abun_unstrat.tsv"
+abundance_file <- "~/M - UBC/Courses/MICB 475/475_Group_Project/Aim_6/pathway_abundance.tsv"
 abundance_data <- read_delim(abundance_file, delim = "\t", col_names = TRUE, trim_ws = TRUE)
-abundance_data  =as.data.frame(abundance_data)
+abundance_data <- as.data.frame(abundance_data)
 
-#Import your metadata file, no need to filter yet
-metadata <- read_delim("mpt_metadata.tsv")
+# Get metadata with highlow
+load("highlow_final.RData")
+meta_hl <-  sample_data(pd_final)
+metadata <-  data.frame(meta_hl)
 
-#Example Looking at subject number
-#If you have multiple variants, filter your metadata to include only 2 at a time
 
-#Remove NAs for your column of interest in this case subject
-metadata = metadata[!is.na(metadata$subject),]
+# Start with PD vs Control
 
-#Filtering the abundance table to only include samples that are in the filtered metadata
-sample_names = metadata$'sample-id'
-sample_names = append(sample_names, "pathway")
-abundance_data_filtered = abundance_data[, colnames(abundance_data) %in% sample_names] #This step is the actual filtering
+#Remove NAs for your column of interest in this case subject        NOT NEEDED for first comparison
+ # metadata = metadata[!is.na(meta_hl$Disease),]
+
+
+#Filtering the abundance table to only include samples that are in the filtered metadata        NOT NEEDED for first comparison
+#sample_names = metadata$'sample-id'
+#sample_names = append(sample_names, "pathway")
+#abundance_data_filtered = abundance_data[, colnames(abundance_data) %in% sample_names] #This step is the actual filtering
 
 #Removing individuals with no data that caused a problem for pathways_daa()
-abundance_data_filtered =  abundance_data_filtered[, colSums(abundance_data_filtered != 0) > 0]
+abundance_data_filtered =  abundance_data[, colSums(abundance_data != 0) > 0]
 
 #Ensuring the rownames for the abundance_data_filtered is empty. This is required for their functions to run.
 rownames(abundance_data_filtered) = NULL
 
 #verify samples in metadata match samples in abundance_data
 abun_samples = rownames(t(abundance_data_filtered[,-1])) #Getting a list of the sample names in the newly filtered abundance data
-metadata = metadata[metadata$`sample-id` %in% abun_samples,] #making sure the filtered metadata only includes these samples
+metadata = metadata[metadata$ID %in% abun_samples,] #making sure the filtered metadata only includes these samples
 
 #### DESEq ####
+# Change the name of Column 1 in the Abundance Data
+colnames(abundance_data_filtered)[1] <- 'pathway'
+
 #Perform pathway DAA using DESEQ2 method
 abundance_daa_results_df <- pathway_daa(abundance = abundance_data_filtered %>% column_to_rownames("pathway"), 
-                                        metadata = metadata, group = "subject", daa_method = "DESeq2")
+                                        metadata = metadata, group = "Disease", daa_method = "DESeq2")
 
 # Annotate MetaCyc pathway so they are more descriptive
 metacyc_daa_annotated_results_df <- pathway_annotation(pathway = "MetaCyc", 
