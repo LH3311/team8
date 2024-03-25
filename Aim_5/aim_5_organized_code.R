@@ -3,6 +3,7 @@ library(tidyverse)
 library(phyloseq)
 library(DESeq2)
 library(dplyr)
+library(ggpubr)
 
 load("~/Documents/GitHub/team8/R/high_low/highlow_final.RData")
 
@@ -15,9 +16,9 @@ sig_nutrients <- c("Non_Starch_Polysaccharides_highlow","Total_folate_highlow",
   
 ### Settings, CHOOSE BEFORE RUNNING ANY OF THE FOLLOWING CODE ###
 # Use for comparing high and low in PD
-#setting <- c("pd_high","pd_low", ": PD high vs PD low", "_PD_vol_plot.png")
+setting <- c("pd_high","pd_low", ": PD high vs PD low", "_PD_vol_plot.png")
 # Use for comparing high and low in Control
-setting <- c("control_high","control_low", ": Control high vs Control low", "_control_vol_plot.png")
+#setting <- c("control_high","control_low", ": Control high vs Control low", "_control_vol_plot.png")
 
 #### Volcano plot ####
 
@@ -91,7 +92,7 @@ for (nutrient in sig_nutrients) {
   sigASVs_barplot
 
   ## Save barplot
-  ggsave(paste("Aim_5/sigASVs_", nutrient, setting[4], sep = ""), sigASVs_barplot)
+  #ggsave(paste("Aim_5/sigASVs_", nutrient, setting[4], sep = ""), sigASVs_barplot)
   
   print(paste("Completed", nutrient, setting[3], "Bar plot"))
 }
@@ -157,7 +158,7 @@ library(microbiome)
 load("highlow_final.RData")
 
 # Specify the phylum, class, order, genus etc that you are interested in
-taxa = "g__Alistipes"
+taxa = "g__Bifidobacterium"
 taxa_level = "Genus"
 
 
@@ -189,15 +190,21 @@ metadata$sampleID = rownames(metadata)
 asv_metadata_joined = inner_join(metadata, asv_df, by = "sampleID")
 asv_metadata_joined = asv_metadata_joined[!is.na(asv_metadata_joined[[nutrient]]),]
 
+
+
 #Plotting relative abundance as a barplot (violin plot also acceptable)
+#list( c("control_high", "control_low"), c("control_high", "pd_high"), c("control_low", "pd_low"), c("pd_high", "pd_low") )
+my_comparisons <- list( c("control_high", "control_low"), c("control_high", "pd_high"), c("control_low", "pd_low"), c("pd_high", "pd_low") )
+
 boxRA <- ggplot(asv_metadata_joined, aes(.data[[nutrient]], relative_abundance, fill = .data[[nutrient]]))+
   geom_boxplot()+
   theme_classic()+
   theme(legend.position = "none")+
   labs(y="Relative Abundance (%)",x= "Treatments")+
-  ggtitle("Folate: Relative Abundance of Prevotella")
+  ggtitle("Coffee: Relative Abundance of Bacteroides")+
+  stat_compare_means(comparisons = my_comparisons,label = "p.signif",hide.ns = TRUE) # Add pairwise comparisons p-value
 boxRA
-ggsave("~/Documents/GitHub/team8/Aim_5/boxRA_Folate_Prevotella.png", boxRA)
+ggsave("~/Documents/GitHub/team8/Aim_5/boxRA_Coffee_Bacteroides.png", boxRA)
 
 #Taking the average of relative abundance for all 4 groups
 sum_df = asv_metadata_joined %>%
@@ -210,7 +217,8 @@ bar_plot_RA <- ggplot(sum_df, aes(.data[[nutrient]], mean, fill = .data[[nutrien
   theme_grey()+
   theme(legend.position = "none")+
   labs(y="Relative Abundance (%)",x= "Treatments")+
-  ggtitle("NSP: Relative Abundance of Prevotella")
+  ggtitle("NSP: Relative Abundance of Prevotella")+
+  stat_compare_means(comparisons = my_comparisons,label = "p.signif",hide.ns = TRUE) # Add pairwise comparisons p-value
 bar_plot_RA
 
 ggsave("~/Documents/GitHub/team8/Aim_5/RA_Folate_Prevotella.png", bar_plot_RA)
