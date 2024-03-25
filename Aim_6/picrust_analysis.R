@@ -33,21 +33,20 @@ library(patchwork)
 library(DESeq2)
 library(ggh4x)
 library(vegan)
-
+library(dplyr)
 # Set Working Directory
 setwd("~/M - UBC/Courses/MICB 475/475_Group_Project/Aim_6")
 
 #### Import files and preparing tables ####
 #Importing the pathway PICrsut2
-abundance_file <- "~/M - UBC/Courses/MICB 475/475_Group_Project/Aim_6/pathway_abundance.tsv"
-abundance_data <- read_delim(abundance_file, delim = "\t", col_names = TRUE, trim_ws = TRUE)
+abundance_data <- read_delim("pathabun_exported/pathway_abundance.tsv", delim = "\t",skip = 1)
 abundance_data <- as.data.frame(abundance_data)
 
 # Get metadata with highlow
 load("highlow_final.RData")
 meta_hl <-  sample_data(pd_final)
 metadata <-  data.frame(meta_hl)
-
+metadata$ID = rownames(metadata)
 
 # Start with PD vs Control
 
@@ -62,18 +61,21 @@ metadata <-  data.frame(meta_hl)
 
 #Removing individuals with no data that caused a problem for pathways_daa()
 abundance_data_filtered =  abundance_data[, colSums(abundance_data != 0) > 0]
-
-#Ensuring the rownames for the abundance_data_filtered is empty. This is required for their functions to run.
-rownames(abundance_data_filtered) = NULL
-
-#verify samples in metadata match samples in abundance_data
+# Change the name of Column 1 in the Abundance Data
+colnames(abundance_data_filtered)[1] <- 'pathway'
+#verify samples in metadata match samples in abundance_data and vice versa
 abun_samples = rownames(t(abundance_data_filtered[,-1])) #Getting a list of the sample names in the newly filtered abundance data
 metadata = metadata[metadata$ID %in% abun_samples,] #making sure the filtered metadata only includes these samples
 
-#### DESEq ####
-# Change the name of Column 1 in the Abundance Data
-colnames(abundance_data_filtered)[1] <- 'pathway'
+#Correct for individuals that are missing from metadata and not in the abundance matrix
+metasamples = c("pathway",metadata$ID)
+abundance_data_filtered = abundance_data_filtered[,colnames(abundance_data_filtered) %in% metasamples]
 
+
+#### DESEq ####
+
+#Ensuring the rownames for the abundance_data_filtered is empty. This is required for their functions to run.
+rownames(abundance_data_filtered) = NULL
 #Perform pathway DAA using DESEQ2 method
 abundance_daa_results_df <- pathway_daa(abundance = abundance_data_filtered %>% column_to_rownames("pathway"), 
                                         metadata = metadata, group = "Disease", daa_method = "DESeq2")
@@ -100,10 +102,10 @@ abundance_desc$feature = abundance_desc$description
 abundance_desc = abundance_desc[,-c(34:ncol(abundance_desc))] 
 
 # Generate a heatmap
-pathway_heatmap(abundance = abundance_desc %>% column_to_rownames("feature"), metadata = metadata, group = "subject")
+pathway_heatmap(abundance = abundance_desc %>% column_to_rownames("feature"), metadata = metadata, group = "Disease")
 
 # Generate pathway PCA plot
-pathway_pca(abundance = abundance_data_filtered %>% column_to_rownames("pathway"), metadata = metadata, group = "subject")
+pathway_pca(abundance = abundance_data_filtered %>% column_to_rownames("pathway"), metadata = metadata, group = "Disease")
 
 # Generating a bar plot representing log2FC from the custom deseq2 function
 
