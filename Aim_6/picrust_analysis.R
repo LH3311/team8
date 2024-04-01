@@ -110,7 +110,9 @@ abundance = abundance_data_filtered %>% filter(pathway %in% feature_with_padjust
 colnames(abundance)[1] = "feature"
 abundance_desc = inner_join(abundance,metacyc_daa_annotated_results_df, by = "feature")
 abundance_desc$feature = abundance_desc$description
-abundance_desc = abundance_desc[,-c(287:ncol(abundance_desc))] 
+#abundance_desc2 = abundance_desc[,-c(287:ncol(abundance_desc))] 
+abundance_desc <- abundance_desc[, -c((ncol(abundance_desc) - 6):ncol(abundance_desc))]
+
 
 # Generate a heatmap
 heatmap <- pathway_heatmap(abundance = abundance_desc %>% column_to_rownames("feature"), metadata = metadata, group = "Disease")
@@ -248,17 +250,17 @@ abundance = abundance_data_filtered %>% filter(pathway %in% sig_features$feature
 colnames(abundance)[1] = "feature"
 abundance_desc = inner_join(abundance,metacyc_daa_annotated_results_df, by = "feature")
 abundance_desc$feature = abundance_desc$description
-abundance_desc = abundance_desc[,-c(287:ncol(abundance_desc))] 
+abundance_desc <- abundance_desc[, -c((ncol(abundance_desc) - 6):ncol(abundance_desc))] 
   
 # Generate a heatmap
-heatmap <- pathway_heatmap(abundance = abundance_desc %>% column_to_rownames("feature"), metadata = metadataPD, group = nutrient)
+pd_heatmap <- pathway_heatmap(abundance = abundance_desc %>% column_to_rownames("feature"), metadata = metadataPD, group = nutrient)
 # save png file
-ggsave(paste("/", nutrient, "/", "pd_heatmap.png", sep = ""), heatmap)
+ggsave(paste("/", nutrient, "/", "pd_heatmap.png", sep = ""), pd_heatmap)
   
 # Generate pathway PCA plot
-pca <- pathway_pca(abundance = abundance_data_filtered %>% column_to_rownames("pathway"), metadata = metadataPD, group = nutrient)
+pd_pca <- pathway_pca(abundance = abundance_data_filtered %>% column_to_rownames("pathway"), metadata = metadataPD, group = nutrient)
 # save png file
-ggsave(paste("/", nutrient, "/", "pd_pca.png", sep = ""), pca)
+ggsave(paste("/", nutrient, "/", "pd_pca.png", sep = ""), pd_pca)
   
 # Lead the function in
 source("DESeq2_function.R")
@@ -275,12 +277,12 @@ sig_res = res_desc %>%
   filter(padj < 0.05)
   
 sig_res <- sig_res[order(sig_res$log2FoldChange),]
-log2foldchange -> ggplot(data = sig_res, aes(y = reorder(description, sort(as.numeric(log2FoldChange))), x= log2FoldChange, fill = pvalue))+
+pd_log2foldchange -> ggplot(data = sig_res, aes(y = reorder(description, sort(as.numeric(log2FoldChange))), x= log2FoldChange, fill = pvalue))+
     geom_bar(stat = "identity")+ 
     theme_bw()+
     labs(x = "Log2FoldChange", y="Pathways")
   
-ggsave(paste("/", nutrient, "/", "pd_log2foldchange.png", sep = ""), log2foldchange)
+ggsave(paste("/", nutrient, "/", "pd_log2foldchange.png", sep = ""), pd_log2foldchange)
 
 }  
   
