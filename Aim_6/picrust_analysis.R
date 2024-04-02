@@ -204,12 +204,19 @@ metadataPD = filter(metadata, !!sym(nutrient) == "pd_low"| !!sym(nutrient) == "p
 
   
 # Filtering the pathway table to only include samples that are in the filtered metadata       
-sample_names = metadataPD$'rownames'
+sample_names = metadataPD$"ID"
 sample_names = append(sample_names, "pathway")
 abundance_data_filtered = abundance_data[, colnames(abundance_data) %in% sample_names] #This step is the actual filtering
   
 #Removing individuals with no data that caused a problem for pathways_daa()
 abundance_data_filtered =  abundance_data[, colSums(abundance_data != 0) > 0]
+
+# Calculate the proportion of 0s for each pathway
+zero_proportion <- rowMeans(abundance_data_filtered == 0)
+# Determine which pathways have more than 98% 0s
+filtered_pathways <- rownames(abundance_data_filtered)[zero_proportion > 0.98]
+# Filter out those pathways
+abundance_data_filtered <- abundance_data_filtered[!(rownames(abundance_data_filtered) %in% filtered_pathways), ]
   
 # Change the name of Column 1 in the Abundance Data
 colnames(abundance_data_filtered)[1] <- 'pathway'
