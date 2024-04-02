@@ -46,7 +46,7 @@ for (nutrient in sig_nutrients) {
     scale_color_manual(values = c("FALSE" = "black", "TRUE" = "red"))
     ggtitle(title)
   ## Save volcano plot
-  ggsave(paste("Aim_5/", nutrient, setting[4], sep = ""),PD_vol_plot)
+ # ggsave(paste("Aim_5/", nutrient, setting[4], sep = ""),PD_vol_plot)
   
   print(paste("Completed", nutrient, setting[3], "Volcano plot"))
 }
@@ -66,6 +66,8 @@ for (nutrient in sig_nutrients) {
   sigASVs <- deseq_results %>% 
     filter(padj<0.01 & abs(log2FoldChange)>2) %>%
     dplyr::rename(ASV=row)
+  sigASVs$Genus = gsub("g__","", sigASVs$Genus)
+  sigASVs$Phylum = gsub("p__","", sigASVs$Phylum)
   #View(sigASVs)
   ## Get only asv names
   sigASVs_vec <- sigASVs %>%
@@ -88,11 +90,19 @@ for (nutrient in sig_nutrients) {
     geom_bar(aes(x=Genus, y=log2FoldChange, fill = Phylum), stat="identity")+
     geom_errorbar(aes(x=Genus, ymin=log2FoldChange-lfcSE, ymax=log2FoldChange+lfcSE)) +
     theme(axis.text.x = element_text(angle=90, hjust=1, vjust=0.5)) +
-    ggtitle(paste("Significant ASVs, ", title, sep = ""))
+    ggtitle(paste("Significant ASVs, ", title, sep = "")) +
+    coord_flip()
+    
+    #ggplot(sigASVs) +
+    #geom_bar(aes(x=Genus, y=log2FoldChange, fill = Phylum), stat="identity")+
+    #geom_errorbar(aes(x=Genus, ymin=log2FoldChange-lfcSE, ymax=log2FoldChange+lfcSE)) +
+    #theme(axis.text.x = element_text(angle=90, hjust=1, vjust=0.5)) +
+    #ggtitle(paste("Significant ASVs, ", title, sep = ""))
+  
   sigASVs_barplot
 
   ## Save barplot
-  #ggsave(paste("Aim_5/sigASVs_", nutrient, setting[4], sep = ""), sigASVs_barplot)
+  ggsave(paste("Aim_5/sigASVs_", nutrient, setting[4], sep = ""), sigASVs_barplot)
   
   print(paste("Completed", nutrient, setting[3], "Bar plot"))
 }
