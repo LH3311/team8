@@ -310,9 +310,9 @@ for (nutrient in sig_nutrient) {
 
 
   
-  for (nutrient in sig_nutrient) {
+for (nutrient in sig_nutrient) {
       
-  print(nutrient)
+print(nutrient)
     
     # Filter nutrient for Control
     
