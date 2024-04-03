@@ -1,0 +1,13 @@
+"ASV","s.control_high","s.control_low","s.median","s.pd_high","s.pd_low","index","stat","p.value","Domain","Phylum","Class","Order","Family","Genus","Species"
+"7ba07d9f4e22c332b04d5646fe2ea051",1,0,0,1,0,8,0.412529448017645,0.0478,"d__Bacteria","p__Verrucomicrobiota","c__Lentisphaeria","o__Victivallales","f__vadinBE97","g__vadinBE97","s__uncultured_bacterium"
+"e52994cd67774b8f72113d04a0b2c493",1,0,1,1,1,29,0.560034409091178,0.0224,"d__Bacteria","p__Firmicutes","c__Clostridia","o__Peptostreptococcales-Tissierellales","f__Anaerovoracaceae","g__Family_XIII_UCG-001","s__uncultured_bacterium"
+"03156252fe6d4e8f09aeafc3bef8622f",0,1,0,0,1,12,0.452586041329266,0.0223,"d__Bacteria","p__Proteobacteria","c__Gammaproteobacteria","o__Enterobacterales","f__Enterobacteriaceae",NA,NA
+"860a5e9ee39ccb39131b57de03fb5bf8",0,1,1,1,1,30,0.554639776082513,0.0196,"d__Bacteria","p__Desulfobacterota","c__Desulfovibrionia","o__Desulfovibrionales","f__Desulfovibrionaceae","g__uncultured","s__uncultured_Desulfovibrionaceae"
+"861d861704ef6eac3ab9fdbe008fcb85",1,0,0,0,0,1,0.389908307821008,0.0035,"d__Bacteria","p__Firmicutes","c__Clostridia","o__Oscillospirales","f__Butyricicoccaceae","g__UCG-008","s__uncultured_bacterium"
+"fdc9a6c69a6b7d728eb6dfe27e462441",1,0,0,0,0,1,0.375459394461706,0.0048,"d__Bacteria","p__Firmicutes","c__Clostridia","o__Lachnospirales","f__Lachnospiraceae","g__GCA-900066575","s__uncultured_bacterium"
+"1131f697b19dc061094f3b846b9f66a0",0,1,1,1,1,30,0.526520351681005,0.0439,"d__Bacteria","p__Firmicutes","c__Clostridia","o__Oscillospirales","f__Ruminococcaceae","g__DTU089",NA
+"53c1fed65d42c390a89f2ed34a20897a",1,1,0,1,0,17,0.361817815144142,0.0284,"d__Bacteria","p__Firmicutes","c__Clostridia","o__Oscillospirales","f__Ruminococcaceae","g__Paludicola","s__uncultured_bacterium"
+"f3270b7f9b020567e59ec30f7d15fc14",1,1,0,1,1,28,0.508899872904228,0.0252,"d__Bacteria","p__Bacteroidota","c__Bacteroidia","o__Bacteroidales","f__Prevotellaceae","g__Paraprevotella",NA
+"84311c29ab5cf09c0720c450dc7c1a43",1,1,1,1,0,26,0.569719614134584,0.0326,"d__Bacteria","p__Bacteroidota","c__Bacteroidia","o__Bacteroidales","f__Muribaculaceae","g__Muribaculaceae","s__uncultured_organism"
+"93f6e99ff381954b541d29cc24c2be7c",0,1,0,0,1,12,0.405908377648628,0.0354,"d__Bacteria","p__Firmicutes","c__Clostridia","o__Lachnospirales","f__Lachnospiraceae","g__[Ruminococcus]_gnavus_group",NA
+"788cd2fab180ca78a4376c6afc0e61c6",1,1,0,1,0,17,0.368821429959258,0.0412,"d__Bacteria","p__Firmicutes","c__Clostridia","o__Lachnospirales","f__Lachnospiraceae","g__Lachnospiraceae_UCG-003","s__uncultured_bacterium"
