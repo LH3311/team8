@@ -16,9 +16,9 @@ sig_nutrients <- c("Non_Starch_Polysaccharides_highlow","Total_folate_highlow",
   
 ### Settings, CHOOSE BEFORE RUNNING ANY OF THE FOLLOWING CODE ###
 # Use for comparing high and low in PD
-setting <- c("pd_high","pd_low", ": PD high vs PD low", "_PD_vol_plot.png")
+#setting <- c("pd_high","pd_low", ": PD high vs PD low", "_PD_vol_plot.png")
 # Use for comparing high and low in Control
-#setting <- c("control_high","control_low", ": Control high vs Control low", "_control_vol_plot.png")
+setting <- c("control_high","control_low", ": Control high vs Control low", "_control_vol_plot.png")
 
 #### Volcano plot ####
 
@@ -66,8 +66,8 @@ for (nutrient in sig_nutrients) {
   sigASVs <- deseq_results %>% 
     filter(padj<0.01 & abs(log2FoldChange)>2) %>%
     dplyr::rename(ASV=row)
-  sigASVs$Genus = gsub("g__","", sigASVs$Genus)
-  sigASVs$Phylum = gsub("p__","", sigASVs$Phylum)
+  
+  
   #View(sigASVs)
   ## Get only asv names
   sigASVs_vec <- sigASVs %>%
@@ -85,13 +85,23 @@ for (nutrient in sig_nutrients) {
     mutate(Genus = factor(Genus, levels=unique(Genus))) %>%
     drop_na(Genus)
   
+  sigASVs$Genus = gsub("g__","", sigASVs$Genus)
+  sigASVs$Phylum = gsub("p__","", sigASVs$Phylum)
+  
   ## Generate barplot
+  
   sigASVs_barplot <- ggplot(sigASVs) +
-    geom_bar(aes(x=Genus, y=log2FoldChange, fill = Phylum), stat="identity")+
+    geom_bar(aes(x=reorder(Genus, log2FoldChange), y=log2FoldChange, fill = Phylum), stat="identity")+
     geom_errorbar(aes(x=Genus, ymin=log2FoldChange-lfcSE, ymax=log2FoldChange+lfcSE)) +
     theme(axis.text.x = element_text(angle=90, hjust=1, vjust=0.5)) +
     ggtitle(paste("Significant ASVs, ", title, sep = "")) +
-    coord_flip()
+    coord_flip()+
+    theme_bw()+
+    ylab("log2 Fold Change")+
+    xlab("Genus")+
+    theme(plot.title = element_text(hjust=0.6, size=16, face="bold"))+
+    theme(axis.title = element_text(size=14, face="bold"))
+
     
     #ggplot(sigASVs) +
     #geom_bar(aes(x=Genus, y=log2FoldChange, fill = Phylum), stat="identity")+

@@ -1,8 +1,10 @@
 #Loading packages
 #Code adapted from "Module15_TwoWayAnova_lm.R" by Dr. Evelyn Sun 
 install.packages('car')
+install.packages('broom')
 library(tidyverse)
 library(phyloseq)
+library(broom)
 library(car)
 
 
@@ -134,29 +136,38 @@ for (i in seq_along(control_models)) {
   
 }
 
+
 #Plotting Significant Non_alcoholic_bevs against ACE, Fisher, Chao1 
 
 ace_gg <- ggplot(control_wdiv, aes(x = Non_alcoholic_bevs, y = ACE)) + 
   geom_point() +
-  stat_smooth(method = "lm", col = "red") 
+  stat_smooth(method = "lm", col = "red") +
+  xlab('Non-Alcoholic Beverages (g)') +
+  ylab('ACE')
 
 chao1_gg <- ggplot(control_wdiv, aes(x = Non_alcoholic_bevs, y = Chao1)) + 
   geom_point() +
-  stat_smooth(method = "lm", col = "red")
+  stat_smooth(method = "lm", col = "red") + 
+  xlab('Non-Alcoholic Beverages (g)') +
+  ylab('Chao1')
 
 fisher_gg <- ggplot(control_wdiv, aes(x = Non_alcoholic_bevs, y = Fisher)) + 
   geom_point() +
-  stat_smooth(method = "lm", col = "red")
+  stat_smooth(method = "lm", col = "red") +
+  xlab('Non-Alcoholic Beverages (g)') +
+  ylab('Fisher')
 
 #Plotting Significant Beta_carotene against Simpson
 simpson_gg <- ggplot(control_wdiv, aes(x = Beta_carotene, y = Simpson)) + 
   geom_point() +
-  stat_smooth(method = "lm", col = "red")
+  stat_smooth(method = "lm", col = "red") +
+  xlab('Beta Carotene (μg)') + 
+  ylab('Simpson')
 
-ggsave("Non Alcoholic Beverages Against ACE.png", plot = ace_gg, width = 5, height = 5)
-ggsave("Non Alcoholic Beverages Against Chao1.png", plot = chao1_gg, width = 5, height = 5)
-ggsave("Non Alcoholic Beverages Against Fisher.png", plot = fisher_gg, width = 5, height =5)
-ggsave("Beta Carotene Against Simpson.png", plot = simpson_gg, width = 5, height = 5)
+ggsave("Non Alcoholic Beverages Against ACE final.png", plot = ace_gg, width = 5, height = 5)
+ggsave("Non Alcoholic Beverages Against Chao1 final.png", plot = chao1_gg, width = 5, height = 5)
+ggsave("Non Alcoholic Beverages Against Fisher final.png", plot = fisher_gg, width = 5, height =5)
+ggsave("Beta Carotene Against Simpson final.png", plot = simpson_gg, width = 5, height = 5)
 
 
 #Testing av plots from car

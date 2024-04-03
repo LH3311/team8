@@ -215,7 +215,15 @@ for (nutrient in sig_nutrient) {
   
   #Removing individuals with no data that caused a problem for pathways_daa()
   abundance_data_filtered =  abundance_data[, colSums(abundance_data != 0) > 0]
+
+  # Filtering the pathway table to only include samples that are in the filtered metadata       
+  sample_names = metadataPD$"ID"
+  sample_names = append(sample_names, "pathway")
+  abundance_data_filtered = abundance_data[, colnames(abundance_data) %in% sample_names] #This step is the actual filtering
   
+  #Removing individuals with no data that caused a problem for pathways_daa()
+  abundance_data_filtered =  abundance_data[, colSums(abundance_data != 0) > 0]
+
   # Change the name of Column 1 in the Abundance Data
   colnames(abundance_data_filtered)[1] <- 'pathway'
   
