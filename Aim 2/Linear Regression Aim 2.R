@@ -149,7 +149,10 @@ chao1_gg <- ggplot(control_wdiv, aes(x = Non_alcoholic_bevs, y = Chao1)) +
   geom_point() +
   stat_smooth(method = "lm", col = "red") + 
   xlab('Non-Alcoholic Beverages (g)') +
-  ylab('Chao1')
+  ylab('Chao1') +
+  theme(axis.title.x = element_text(size = 18),  
+        axis.title.y = element_text(size = 18),
+        axis.text = element_text(size = 12))
 
 fisher_gg <- ggplot(control_wdiv, aes(x = Non_alcoholic_bevs, y = Fisher)) + 
   geom_point() +
@@ -162,12 +165,15 @@ simpson_gg <- ggplot(control_wdiv, aes(x = Beta_carotene, y = Simpson)) +
   geom_point() +
   stat_smooth(method = "lm", col = "red") +
   xlab('Beta Carotene (μg)') + 
-  ylab('Simpson')
+  ylab('Simpson') +
+  theme(axis.title.x = element_text(size = 18),  
+        axis.title.y = element_text(size = 18),
+        axis.text = element_text(size = 12))
 
 ggsave("Non Alcoholic Beverages Against ACE final.png", plot = ace_gg, width = 5, height = 5)
-ggsave("Non Alcoholic Beverages Against Chao1 final.png", plot = chao1_gg, width = 5, height = 5)
+ggsave("Non Alcoholic Beverages Against Chao1 final2.png", plot = chao1_gg, width = 5, height = 5)
 ggsave("Non Alcoholic Beverages Against Fisher final.png", plot = fisher_gg, width = 5, height =5)
-ggsave("Beta Carotene Against Simpson final.png", plot = simpson_gg, width = 5, height = 5)
+ggsave("Beta Carotene Against Simpson final2.png", plot = simpson_gg, width = 5, height = 5)
 
 
 #Testing av plots from car
