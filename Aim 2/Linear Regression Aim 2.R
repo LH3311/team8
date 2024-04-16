@@ -1,11 +1,9 @@
 #Loading packages
 #Code adapted from "Module15_TwoWayAnova_lm.R" by Dr. Evelyn Sun 
-install.packages('car')
-install.packages('broom')
 library(tidyverse)
 library(phyloseq)
-library(broom)
-library(car)
+
+
 
 
 #Loading rarified PD phyloseq object 
@@ -143,39 +141,46 @@ ace_gg <- ggplot(control_wdiv, aes(x = Non_alcoholic_bevs, y = ACE)) +
   geom_point() +
   stat_smooth(method = "lm", col = "red") +
   xlab('Non-Alcoholic Beverages (g)') +
-  ylab('ACE')
+  ylab('ACE') +
+  theme(axis.title.x = element_text(size = 18),  
+        axis.title.y = element_text(size = 18),
+        axis.text = element_text(size = 12))
 
 chao1_gg <- ggplot(control_wdiv, aes(x = Non_alcoholic_bevs, y = Chao1)) + 
   geom_point() +
   stat_smooth(method = "lm", col = "red") + 
   xlab('Non-Alcoholic Beverages (g)') +
-  ylab('Chao1')
+  ylab('Chao1') +
+  theme(axis.title.x = element_text(size = 18),  
+        axis.title.y = element_text(size = 18),
+        axis.text = element_text(size = 12))
 
 fisher_gg <- ggplot(control_wdiv, aes(x = Non_alcoholic_bevs, y = Fisher)) + 
   geom_point() +
   stat_smooth(method = "lm", col = "red") +
   xlab('Non-Alcoholic Beverages (g)') +
-  ylab('Fisher')
+  ylab('Fisher')+
+  theme(axis.title.x = element_text(size = 18),  
+        axis.title.y = element_text(size = 18),
+        axis.text = element_text(size = 12))
 
 #Plotting Significant Beta_carotene against Simpson
 simpson_gg <- ggplot(control_wdiv, aes(x = Beta_carotene, y = Simpson)) + 
   geom_point() +
   stat_smooth(method = "lm", col = "red") +
   xlab('Beta Carotene (μg)') + 
-  ylab('Simpson')
+  ylab('Simpson') +
+  theme(axis.title.x = element_text(size = 18),  
+        axis.title.y = element_text(size = 18),
+        axis.text = element_text(size = 12))
 
-ggsave("Non Alcoholic Beverages Against ACE final.png", plot = ace_gg, width = 5, height = 5)
-ggsave("Non Alcoholic Beverages Against Chao1 final.png", plot = chao1_gg, width = 5, height = 5)
-ggsave("Non Alcoholic Beverages Against Fisher final.png", plot = fisher_gg, width = 5, height =5)
-ggsave("Beta Carotene Against Simpson final.png", plot = simpson_gg, width = 5, height = 5)
+ggsave("Non Alcoholic Beverages Against ACE final2.png", plot = ace_gg, width = 5, height = 5)
+ggsave("Non Alcoholic Beverages Against Chao1 final2.png", plot = chao1_gg, width = 5, height = 5)
+ggsave("Non Alcoholic Beverages Against Fisher final2.png", plot = fisher_gg, width = 5, height =5)
+ggsave("Beta Carotene Against Simpson final2.png", plot = simpson_gg, width = 5, height = 5)
 
 
-#Testing av plots from car
-for (i in seq_along(pd_models)) {
-  cat("AV Plot for Response Variable:", response_variables[i], "\n")
-  av_plot <- avPlots(pd_models[[i]], ask = FALSE)
-  print(av_plot)
-}
+
 
 
 
